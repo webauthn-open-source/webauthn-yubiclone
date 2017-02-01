@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>U2F demo</title>
+    <!-- Bootstrap -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/fonts.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="css/bootstrap-yubico.css" rel="stylesheet">
+    <script src="js/u2f-api.js"></script>
+    <style type="text/css">
+    .tt-info:hover {
+        text-decoration: underline;
+    }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="base">
+        <div class="content">
+<!--             <div style="float:right;">
+                <a href="/">Test your YubiKey with OTP</a>
+            </div>
+            <div class="header-logo visible-desktop">
+                <a href="http://www.yubico.com/" title="Yubico"><img src="/yubico-logo.png" alt="Yubico"></a>
+            </div> -->
+            <h1>WebAuthn Demo</h1>
+            <p>This demo will let you create a user and register using WebAuthn, then authenticate yourself without a password.
+            <p>Start by registering a user, then try logging in.</p>
+            <!--<p>You can also try our <a href="/u2fdemo.apk">Android U2F login demo</a> using the account you've registered here.</p>-->
+            <br />
+            <div class="well">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="?tab=register" data-target="#register" data-toggle="tab">Register</a></li>
+                    <li><a href="?tab=login" data-target="#login" data-toggle="tab">Login</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="register">
+                        <div class="container-fluid">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <h2>Create a New Account</h2>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span6">
+                                    <form action="?tab=register" name="enroll-form" method="post">
+                                        <input type="hidden" name="mode" value="enroll" />
+                                        <input type="text" name="username" placeholder="Username" autofocus="autofocus" />
+                                        <br />
+                                        <input type="submit" class="btn btn-success" value="Next" />
+                                    </form>
+                                </div>
+                                <div class="span6">
+                                    <p>Enter a username and click 'next' initialize the WebAuthn registration process. In the next step you will be prompted to register with WebAuthn -- No password required!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="login">
+                        <div class="container-fluid">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <h2>Log in to Account Using WebAuthn</h2>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <form action="?tab=login" name="sign-form" method="post">
+                                    <div class="span6">
+                                        <input type="hidden" name="mode" value="sign" />
+                                        <input type="text" name="username" placeholder="Username" autofocus="autofocus" />
+                                        <br />
+                                        <input type="submit" class="btn btn-success" value="Login" />
+                                    </div>
+                                    <div class="span6">
+                                        <p>If you've completed the registration step, you can authenticate yourself using the form to the left. In the next step your U2F device will be authenticated.</p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<p><small><strong>Note:</strong>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc fringilla pharetra lacinia.</small></p>--!>
+      </div>
+    </div>
+
+    <!-- Modal -->
+            <div id="promptModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <h3 id="myModalLabel">Performing U2F action</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Please touch the flashing U2F device now.</p>
+                    <p>You may be prompted to allow the site permission to access your security keys. After granting permission, the device will start to blink.</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" href="javascript:history.back()">Abort</a>
+                </div>
+            </div>
+            <script src="js/jquery-1.8.3.min.js"></script>
+            <script src="js/bootstrap.min.js"></script>
+            <!-- <script src="js/bowser.min.js"></script> -->
+            <script type="text/javascript">
+            $(document).ready(function() {
+                $('a[data-toggle="tab"]').on('shown', function(e) {
+                    $('input[name=username]', $(e.target).attr('data-target')).focus();
+                });
+            });
+            /* JSHINT */
+            /* globals $ */
+            </script>
+</body>
+
+</html>
