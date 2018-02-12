@@ -5,7 +5,7 @@
     <title>WebAuthn demo</title>
     <!-- Bootstrap -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/fonts.css" rel="stylesheet" />
+    <link href="css/fonts.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="css/bootstrap-yubico.css" rel="stylesheet">
@@ -25,7 +25,7 @@
             <h1>WebAuthn Demo</h1>
             <p>This demo will let you create a user and register using WebAuthn, then authenticate yourself without a password.
             <p>Start by registering a user, then try logging in.</p>
-            <br />
+            <br>
             <div class="well">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="?tab=register" data-target="#register" data-toggle="tab">Register</a></li>
@@ -41,11 +41,13 @@
                             </div>
                             <div class="row-fluid">
                                 <div class="span6">
-                                    <form action="?tab=register" name="enroll-form" method="post">
-                                        <input type="hidden" name="mode" value="enroll" />
-                                        <input type="text" name="username" placeholder="Username" autofocus="autofocus" />
-                                        <br />
-                                        <input type="submit" class="btn btn-success" value="Next" />
+                                    <form onsubmit="return WebAuthnApp.webAuthnRegisterOnSubmit()" name="register-form" method="post">
+                                        <input type="hidden" id="registerSuccessRedirect" value="/registered.html">
+                                        <input type="hidden" id="timeout" value="60000">
+                                        <input type="hidden" id="appName" value="webauthn.org">
+                                        <input type="text" id="username" name="username" placeholder="Username" autofocus="autofocus">
+                                        <br>
+                                        <input type="submit" class="btn btn-success" value="Next">
                                     </form>
                                 </div>
                                 <div class="span6">
@@ -62,12 +64,12 @@
                                 </div>
                             </div>
                             <div class="row-fluid">
-                                <form action="?tab=login" name="sign-form" method="post">
+                                <form action="/login" name="login-form" method="post">
                                     <div class="span6">
-                                        <input type="hidden" name="mode" value="sign" />
-                                        <input type="text" name="username" placeholder="Username" autofocus="autofocus" />
-                                        <br />
-                                        <input type="submit" class="btn btn-success" value="Login" />
+                                        <input type="hidden" name="mode" value="sign">
+                                        <input type="text" name="username" placeholder="Username" autofocus="autofocus">
+                                        <br>
+                                        <input type="submit" class="btn btn-success" value="Login">
                                     </div>
                                     <div class="span6">
                                         <p>If you've completed the registration step, you can authenticate yourself using the form to the left. In the next step your WebAuthn device will be authenticated.</p>
@@ -92,6 +94,7 @@
             </div>
             <script src="js/jquery-1.8.3.min.js"></script>
             <script src="js/bootstrap.min.js"></script>
+            <script src="js/webauthn-simple-app.js"></script>
             <!-- <script src="js/bowser.min.js"></script> -->
             <script type="text/javascript">
             $(document).ready(function() {
