@@ -47,7 +47,7 @@
                                         <input type="hidden" id="appName" value="webauthn.org">
                                         <input type="text" id="username" name="username" placeholder="Username" autofocus="autofocus">
                                         <br>
-                                        <input type="submit" class="btn btn-success" value="Next">
+                                        <input type="submit" id="registerButton" class="btn btn-success" value="Register">
                                     </form>
                                 </div>
                                 <div class="span6">
@@ -64,12 +64,12 @@
                                 </div>
                             </div>
                             <div class="row-fluid">
-                                <form action="/login" name="login-form" method="post">
+                                <form onsubmit="return WebAuthnApp.webAuthnLoginOnSubmit()" name="login-form" method="post">
                                     <div class="span6">
                                         <input type="hidden" name="mode" value="sign">
                                         <input type="text" name="username" placeholder="Username" autofocus="autofocus">
                                         <br>
-                                        <input type="submit" class="btn btn-success" value="Login">
+                                        <input type="submit" id="loginButton" class="btn btn-success" value="Login">
                                     </div>
                                     <div class="span6">
                                         <p>If you've completed the registration step, you can authenticate yourself using the form to the left. In the next step your WebAuthn device will be authenticated.</p>
@@ -80,31 +80,114 @@
                     </div>
                 </div>
             </div>
-            <div id="promptModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+            <!-- Modals -->
+            <div id="notSupportedModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-header">
-                    <h3 id="myModalLabel">Performing WebAuthn action</h3>
+                    <h3 id="myModalLabel">WebAuthn Not Supported</h3>
                 </div>
-                <div class="modal-body">
-                    <p>Please touch the flashing WebAuthn device now.</p>
-                    <p>You may be prompted to allow the site permission to access your security keys. After granting permission, the device will start to blink.</p>
+                <div class="modal-body" id="notSupportedBody">
+                    <p>WebAuthn is not currently supported in this configuration. Please ensure you are using a secure context (https) and that your browser supports WebAuthn</p>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-default" href="javascript:history.back()">Abort</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
                 </div>
             </div>
+
+            <div id="upModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <h3 id="myModalLabel">Perform User Verification</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Please perform your user verification on your authenticator now.</p>
+                    <p>If you have a U2F token, it should be flashing now. Otherwise, please press your fingerprint sensor or follow the instructions provided by your browser or operating system.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Abort</button>
+                </div>
+            </div>
+
+            <div id="resultModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header" id="resultHeader">
+                    <h3 id="myModalLabel">Registration</h3>
+                </div>
+                <div class="modal-body" id="resultBody">
+                    <p>Registration is done.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+
+            <!-- <script src="js/bowser.min.js"></script> -->
             <script src="js/jquery-1.8.3.min.js"></script>
             <script src="js/bootstrap.min.js"></script>
-            <script src="js/webauthn-simple-app/webauthn-simple-app.js"></script>
-            <!-- <script src="js/bowser.min.js"></script> -->
             <script type="text/javascript">
             $(document).ready(function() {
-                $('a[data-toggle="tab"]').on('shown', function(e) {
-                    $('input[name=username]', $(e.target).attr('data-target')).focus();
+                $("a[data-toggle=\"tab\"]").on("shown", function(e) {
+                    $("input[name=username]", $(e.target).attr("data-target")).focus();
                 });
             });
+
+            document.addEventListener("webauthn-not-supported", function(e) {
+                console.log("caught webauthn not supported:", e);
+
+                console.log("event detail", e.detail);
+                $("#notSupportedModal").modal("show");
+                // change modal body to the message received from the event
+                $("#notSupportedBody").html(e.detail);
+                // disable "Register" and "Login" buttons
+                $("#registerButton").prop("disabled", true);
+                $("#loginButton").prop("disabled", true);
+            });
+
+            document.addEventListener("webauthn-user-presence-start", function() {
+                console.log("caught user presence start!");
+                $("#upModal").modal("show");
+            });
+
+            document.addEventListener("webauthn-user-presence-done", function() {
+                console.log("caught user presence done!");
+                $("#upModal").modal("hide");
+            });
+
+            function completeListener(type, e) {
+                console.log(`Caught ${type} complete!"`);
+                console.log("e", e);
+
+                $("#resultHeader").html(`<h3>${type} Complete</h3>`);
+
+                var body;
+                var result = e.detail;
+                if (result.success) {
+                    body = `<h3 class="alert-success">Success!</h3>`;
+                } else {
+                    body = `<h3 class="alert-danger">Failed!</h3>`;
+                }
+                body += `<p>${result.msg}</p>`;
+                $("#resultBody").html(body);
+
+                // if modal is still visible...
+                // var viz = $('#upModal').is(':visible');
+                var viz = ($("element").data('bs.modal') || {})._isShown;
+                if (viz) {
+                    console.log ("modal still visble");
+                    // ...wait for modal to hide
+                    $("upModal").on('hidden.bs.modal', function() {
+                        $("#resultModal").modal("show");
+                    });
+                } else {
+                    console.log("hiding...");
+                    $("#resultModal").modal("show");
+                }
+            }
+
+            document.addEventListener("webauthn-register-complete", completeListener.bind(null, "Registration"));
+            document.addEventListener("webauthn-login-complete", completeListener.bind(null, "Login"));
             /* JSHINT */
             /* globals $ */
             </script>
+            <script src="js/webauthn-simple-app/webauthn-simple-app.js"></script>
 </body>
 
 </html>
