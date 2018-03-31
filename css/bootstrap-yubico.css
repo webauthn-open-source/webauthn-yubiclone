@@ -1,7 +1,7 @@
 :root {
-  --main-color: #024184;
-  --secondary-color: #0871e0;
-  --grad-start-color: #0451a3;
+  --main-color: #3423a6;
+  --secondary-color: #3939ea;
+  --grad-start-color: #3636ce;
 }
 
 html {
@@ -82,16 +82,16 @@ a, a:hover {
   border-top-color: transparent;
 }
 .btn-success {
-  background-color: #9aca3c;
+  background-color: #3423a6;
   color: #ffffff;
-  background-image: -moz-linear-gradient(top, #0871e0, #024184);
-  background-image: -ms-linear-gradient(top, #0871e0, #024184);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#9edb48), to(#024184));
-  background-image: -webkit-linear-gradient(top, #0871e0, #024184);
-  background-image: -o-linear-gradient(top, #0871e0, #024184);
-  background-image: linear-gradient(top, #0871e0, #024184);
+  background-image: -moz-linear-gradient(top, #3939ea, #3423a6);
+  background-image: -ms-linear-gradient(top, #3939ea, #3423a6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#9edb48), to(#3423a6));
+  background-image: -webkit-linear-gradient(top, #3939ea, #3423a6);
+  background-image: -o-linear-gradient(top, #3939ea, #3423a6);
+  background-image: linear-gradient(top, #3939ea, #3423a6);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#'0871e0, endColorstr='#'024184, GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#'3939ea, endColorstr='#'3423a6, GradientType=0);
   border-color: #0044cc #0044cc #002a80;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);

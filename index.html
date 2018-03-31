@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/fonts.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="css/bootstrap-yubico.css" rel="stylesheet">
     <style type="text/css">
     .tt-info:hover {
@@ -22,92 +21,128 @@
 <body>
     <div class="base">
         <div class="content">
+            <div class="header-logo visible-desktop">
+                <a href="http://webauthn.org/" title="WebAuthn"><img src="/webauthn-logo.png" alt="Yubico"></a>
+            </div>
             <h1>WebAuthn Demo</h1>
-            <p>This demo will let you create a user and register using WebAuthn, then authenticate yourself without a password.
+            <p>This demo will let you create a user and register using WebAuthn, then authenticate yourself without a password.</p>
             <p>Start by registering a user, then try logging in.</p>
             <br>
-            <div class="well">
+            <div class="card card-body bg-light" role="tablist">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="?tab=register" data-target="#register" data-toggle="tab">Register</a></li>
-                    <li><a href="?tab=login" data-target="#login" data-toggle="tab">Login</a></li>
+                    <li class="nav-item">
+                        <a href="?tab=register" class="nav-link active" data-target="#register" data-toggle="tab">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="?tab=login" class="nav-link" data-target="#login" data-toggle="tab">Login</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane active" id="register">
+                    <div class="tab-pane fade show active" role="tabpanel" id="register">
                         <div class="container-fluid">
-                            <div class="row-fluid">
-                                <div class="span12">
+                            <div class="row">
+                                <div class="col-md-12">
                                     <h2>Create a New Account</h2>
                                 </div>
                             </div>
-                            <div class="row-fluid">
-                                <div class="span6">
-                                    <form onsubmit="return WebAuthnApp.webAuthnRegisterOnSubmit()" name="register-form" method="post">
-                                        <input type="hidden" id="registerSuccessRedirect" value="/registered.html">
-                                        <input type="hidden" id="timeout" value="60000">
-                                        <input type="hidden" id="appName" value="webauthn.org">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form id="register-form" name="register-form" method="post">
+                                        <br>
                                         <input type="text" id="username" name="username" placeholder="Username" autofocus="autofocus">
+                                        <br>
                                         <br>
                                         <input type="submit" id="registerButton" class="btn btn-success" value="Register">
                                     </form>
                                 </div>
-                                <div class="span6">
+                                <div class="col-md-6">
                                     <p>Enter a username and click 'next' initialize the WebAuthn registration process. In the next step you will be prompted to register with WebAuthn -- No password required!</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="login">
+                    <div class="tab-pane fade" role="tabpanel" id="login">
                         <div class="container-fluid">
-                            <div class="row-fluid">
-                                <div class="span12">
+                            <div class="row">
+                                <div class="col-md-12">
                                     <h2>Log in to Account Using WebAuthn</h2>
                                 </div>
                             </div>
-                            <div class="row-fluid">
-                                <form onsubmit="return WebAuthnApp.webAuthnLoginOnSubmit()" name="login-form" method="post">
-                                    <div class="span6">
-                                        <input type="hidden" name="mode" value="sign">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form id="login-form" name="login-form" method="post">
+                                        <br>
                                         <input type="text" name="username" placeholder="Username" autofocus="autofocus">
                                         <br>
+                                        <br>
                                         <input type="submit" id="loginButton" class="btn btn-success" value="Login">
-                                    </div>
-                                    <div class="span6">
-                                        <p>If you've completed the registration step, you can authenticate yourself using the form to the left. In the next step your WebAuthn device will be authenticated.</p>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>If you've completed the registration step, you can authenticate yourself using the form to the left. In the next step your WebAuthn device will be authenticated.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <!-- Modals -->
-            <div id="notSupportedModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-header">
-                    <h3 id="myModalLabel">WebAuthn Not Supported</h3>
-                </div>
-                <div class="modal-body" id="notSupportedBody">
-                    <p>WebAuthn is not currently supported in this configuration. Please ensure you are using a secure context (https) and that your browser supports WebAuthn</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+
+            <div id="notSupportedModal" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">WebAuthn Not Supported</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div id="notSupportedBody" class="modal-body">
+                            <p>WebAuthn is not currently supported in this configuration. Please ensure you are using a secure context (https) and that your browser supports WebAuthn</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div id="upModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-header">
-                    <h3 id="myModalLabel">Perform User Verification</h3>
-                </div>
-                <div class="modal-body">
-                    <p>Please perform your user verification on your authenticator now.</p>
-                    <p>If you have a U2F token, it should be flashing now. Otherwise, please press your fingerprint sensor or follow the instructions provided by your browser or operating system.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Abort</button>
+            <div id="upModal" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Perform User Verification</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Please perform your user verification on your authenticator now.</p>
+                            <p>If you have a U2F token, it should be flashing now. Otherwise, please press your fingerprint sensor or follow the instructions provided by your browser or operating system.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Abort</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div id="resultModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div id="resultModal" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 id="resultHeader" class="modal-title">Whatever Complete</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div id="resultBody" class="modal-body">
+                            <p>Something something passed or failed or whatever. Results go here.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--             <div id="resultModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="resultModal" aria-hidden="true">
                 <div class="modal-header" id="resultHeader">
                     <h3 id="myModalLabel">Registration</h3>
                 </div>
@@ -117,76 +152,10 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
                 </div>
-            </div>
-
-            <!-- <script src="js/bowser.min.js"></script> -->
-            <script src="js/jquery-1.8.3.min.js"></script>
+            </div> -->
+            <script src="js/jquery-3.3.1.min.js"></script>
             <script src="js/bootstrap.min.js"></script>
-            <script type="text/javascript">
-            $(document).ready(function() {
-                $("a[data-toggle=\"tab\"]").on("shown", function(e) {
-                    $("input[name=username]", $(e.target).attr("data-target")).focus();
-                });
-            });
-
-            document.addEventListener("webauthn-not-supported", function(e) {
-                console.log("caught webauthn not supported:", e);
-
-                console.log("event detail", e.detail);
-                $("#notSupportedModal").modal("show");
-                // change modal body to the message received from the event
-                $("#notSupportedBody").html(e.detail);
-                // disable "Register" and "Login" buttons
-                $("#registerButton").prop("disabled", true);
-                $("#loginButton").prop("disabled", true);
-            });
-
-            document.addEventListener("webauthn-user-presence-start", function() {
-                console.log("caught user presence start!");
-                $("#upModal").modal("show");
-            });
-
-            document.addEventListener("webauthn-user-presence-done", function() {
-                console.log("caught user presence done!");
-                $("#upModal").modal("hide");
-            });
-
-            function completeListener(type, e) {
-                console.log(`Caught ${type} complete!"`);
-                console.log("e", e);
-
-                $("#resultHeader").html(`<h3>${type} Complete</h3>`);
-
-                var body;
-                var result = e.detail;
-                if (result.success) {
-                    body = `<h3 class="alert-success">Success!</h3>`;
-                } else {
-                    body = `<h3 class="alert-danger">Failed!</h3>`;
-                }
-                body += `<p>${result.msg}</p>`;
-                $("#resultBody").html(body);
-
-                // if modal is still visible...
-                // var viz = $('#upModal').is(':visible');
-                var viz = ($("element").data('bs.modal') || {})._isShown;
-                if (viz) {
-                    console.log ("modal still visble");
-                    // ...wait for modal to hide
-                    $("upModal").on('hidden.bs.modal', function() {
-                        $("#resultModal").modal("show");
-                    });
-                } else {
-                    console.log("hiding...");
-                    $("#resultModal").modal("show");
-                }
-            }
-
-            document.addEventListener("webauthn-register-complete", completeListener.bind(null, "Registration"));
-            document.addEventListener("webauthn-login-complete", completeListener.bind(null, "Login"));
-            /* JSHINT */
-            /* globals $ */
-            </script>
+            <script src="js/ux-events.js"></script>
             <script src="js/webauthn-simple-app/webauthn-simple-app.js"></script>
 </body>
 
