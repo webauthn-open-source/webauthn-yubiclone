@@ -139,3 +139,25 @@ a, a:hover {
     padding-bottom: 20px;
   }
 }
+
+#collapseButton {
+    text-decoration: none;
+    color: #666666;
+    font-size: 70%;
+    text-transform: uppercase;
+}
+
+#headingAdvanced {
+  padding: 0;
+}
+
+#collapseButton[aria-expanded="true"]:before {
+  content: "\f13a";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+#collapseButton[aria-expanded="false"]:before {
+  content: "\f138";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
