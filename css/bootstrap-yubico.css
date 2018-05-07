@@ -156,8 +156,44 @@ a, a:hover {
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
 }
+
 #collapseButton[aria-expanded="false"]:before {
   content: "\f138";
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
+}
+
+#terminal {
+  padding: 18px 10px 8px 10px;
+  /*line-height: 0px;*/
+  font-size: 12px;
+  background-color: #000000;
+  font: #FF0000;
+  height: 480px;
+  font-family: "Monospace", "Courier";
+  overflow-y: auto;
+}
+
+#terminal .error {
+  color: #FF0000;
+}
+
+#terminal .status {
+  /*color: #caf7fc;*/
+  color: #23e41b;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#terminal .result {
+  color: #caf7fc;
+}
+
+#terminal .message {
+  color: #888888;
+  /*font-size: 75%;*/
+}
+
+#terminal .webauthn {
+  color: #f26513;
 }
