@@ -99,8 +99,107 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            <!-- </div>
+                <form>
+                    <div class="form-group" id="config">
+                        <h2>General Options</h2>
+                        <label for="challengeInput">Challenge</label>
+                        <input class="form-control" id="challengeInput" placeholder="A1 2B C3 44 DD ...">
+                        <small id="challengeHelp" class="form-text text-muted">A random hex string. Should come from the server and changing this should make the server reject the request.</small>
+                        <br>
+                        <label for="timeoutInput">Timeout</label>
+                        <input class="form-control" id="timeoutInput" placeholder="60000">
+                        <small id="timeoutHelp" class="form-text text-muted">How many milliseconds until WebAuthn calls time out. 0 = forever.</small>
+                        <br>
+                        <label for="extensionsInput">Extensions</label>
+                        <textarea class="form-control" id="extensionsInput" rows="1" placeholder='{ "appid": true ...'></textarea>
+                        <small id="extensionHelp" class="form-text text-muted">Extensions to pass to the browser / authenticator. Will be parsed as JSON and treated as a JavaScript Object.</small>
+                        <hr>
+                        <h2>Registration Options</h2>
+                        <label for="attestationInput">Attestation</label>
+                        <select class="form-control" id="attestationInput">
+                          <option>direct</option>
+                          <option>indirect</option>
+                          <option>none</option>
+                        </select>
+                        <br>
+                        <label for="credParamsInput">Credential Parameters</label>
+                        <input class="form-control" id="credParamsInput" placeholder="-7, ...">
+                        <small id="credParamsHelp" class="form-text text-muted">A comma-separated list of COSE algorithms IDs that indicate which crypto algorithm should be used when creating credentials, in preference order.</small>
+                        <br>
+                        <div class="card card-body bg-light">
+                            <h5>Authenticator Selection Criteria</h5>
+                            <label for="authnrAttachInput">Authenticator Attachment</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="resKeyCheckbox" disabled>
+                                <label class="form-check-label" for="resKeyCheckbox">Require Resident Key</label>
+                            </div>
+                            <select multiple class="form-control" id="authnrAttachInput">
+                              <option>usb</option>
+                              <option>nfc</option>
+                              <option>ble</option>
+                            </select>
+                            <br>
+                            <label for="uvInput">User Verification</label>
+                            <select class="form-control" id="uvInput">
+                              <option>required</option>
+                              <option>preferred</option>
+                              <option>discouraged</option>
+                            </select>
+                            <br>
+                        </div>
+                        <div class="card card-body bg-light">
+                            <h5>User Information</h5>
+                            <label for="usernameInput">Name</label>
+                            <input class="form-control" id="usernameInput" placeholder="apowers">
+                            <small id="usernameHelp" class="form-text text-muted">Username. Overrides the field in the registration form above.</small>
+                            <br>
+                            <label for="displayNameInput">Display Name</label>
+                            <input class="form-control" id="displayNameInput" placeholder="Adam Powers">
+                            <small id="displayNameHelp" class="form-text text-muted">A human-readable string for the user's name.</small>
+                            <br>
+                            <label for="userIdInput">User ID</label>
+                            <input class="form-control" id="userIdInput" placeholder="A1 2B C3 44 DD ...">
+                            <small id="userIdHelp" class="form-text text-muted">A hex string for the user ID.</small>
+                            <br>
+                            <label for="userIconInput">Icon</label>
+                            <input class="form-control" id="userIconInput" placeholder="avoiwun23rf9v23==">
+                            <small id="userIconHelp" class="form-text text-muted">A base64 encoding of an icon.</small>
+                        </div>
 
+                        <div class="card card-body bg-light">
+                            <h5>Service Information</h5>
+                            <label for="serviceNameInput">Name</label>
+                            <input class="form-control" id="serviceNameInput" placeholder="WebAuthn.org">
+                            <small id="serviceNameHelp" class="form-text text-muted">Username. Overrides the field in the registration form above.</small>
+                            <br>
+                            <label for="serviceIconInput">Icon</label>
+                            <input class="form-control" id="serviceIconInput" placeholder="avoiwun23rf9v23==">
+                            <small id="servicIconHelp" class="form-text text-muted">A base64 encoding of an icon.</small>
+                        </div>
+                        <br>
+                        <label for="exCredInput">Exclude Credentials</label>
+                        <textarea class="form-control" id="exCredInput" rows="1" placeholder="A1 2B C3 44 DD, usb ...""></textarea>
+                        <small id="exCredHelp" class="form-text text-muted">A list of Credential IDs to exclude (one per line), optionally followed by a comma separated list of transports that are not allowed for that specific credential.</small>
+                        <hr>
+                        <h2>Login Options</h2>
+                        <label for="rpIdInput">Timeout</label>
+                        <input class="form-control" id="rpIdInput" placeholder="webauthn.org">
+                        <small id="rpIdHelp" class="form-text text-muted">The relying party ID (domain) claimed by the caller.</small>
+                        <br>
+                        <label for="uvInput">User Verification</label>
+                        <select class="form-control" id="uvInput">
+                          <option>required</option>
+                          <option>preferred</option>
+                          <option>discouraged</option>
+                        </select>
+                        <br>
+                        <label for="allowCredInput">Exclude Credentials</label>
+                        <textarea class="form-control" id="allowCredInput" rows="1" placeholder="A1 2B C3 44 DD, usb ..."></textarea>
+                        <small id="allowCredHelp" class="form-text text-muted">A list of Credential IDs to allow (one per line), optionally followed by a comma separated list of transports that are allowed for that specific credential.</small>
+                    </div>
+                </form>
+            </div> -->
             <!-- accordion for advanced content -->
             <div id="accordion">
               <div class="card">
@@ -113,8 +212,8 @@
                 <div id="collapseAdvanced" class="collapse" aria-labelledby="headingAdvanced" data-parent="#accordion">
 
                     <!-- debug output text area -->
-                    <div id="terminal" contenteditable="true">
-                    </div>
+                    <div id="terminal" contenteditable="true"></div>
+
                 </div>
               </div>
             </div>
