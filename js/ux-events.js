@@ -36,7 +36,7 @@
 
         // get username
         webAuthnConfig.username = getUsernameFromEvent(event);
-
+        // getAdvancedConfig();
         new WebAuthnApp(webAuthnConfig)
             .register()
             .then(function(resp) {
@@ -243,4 +243,64 @@
         // scroll to bottom of terminal
         $("#terminal").scrollTop($("#terminal")[0].scrollHeight);
     }
+
+    /*******************************************
+    * Advanced Configuration Stuff
+    *******************************************/
+    function getAdvancedConfig() {
+        console.log("getAdvancedConfig");
+        var usernameInput = $("#usernameInput");
+        console.log("usernameInput", usernameInput);
+        console.log("usernameInput.value", usernameInput[0].value);
+        getInputValue("usernameInput");
+    }
+
+    function getInputValue(id) {
+        var found = $("#" + id);
+        console.log(id, ":", found);
+        console.log("Array?", found instanceof Array);
+        console.log("found length", found.length);
+        if (found.length !== 1) {
+            throw new Error("error finding value for " + id);
+        }
+        found = found[0];
+
+        console.log(`${id}: ${found.value}`);
+        return found.value;
+    }
 }());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
